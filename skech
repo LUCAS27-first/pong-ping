@@ -1,0 +1,151 @@
+let posi_x_bolinha = 327;
+let posi_y_bolinha = 250;
+let diametro = 17;
+let raio = diametro / 2;
+
+let velocidadex = 4;
+let velocidadey = 4;
+
+let rqx = 6;
+let rqy = 150;
+let rqal = 90;
+let rqla = 11;
+
+
+let rqxop = 582;
+let rqyop = 150;
+
+let velocidadeOP;
+
+let colisao = false;
+
+let pontos1 = 0;
+let pontos2 = 0;
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(0);
+  bolinha();
+  posicaobolinha();
+  verificacao();
+  raquete(rqx , rqy);
+  raquete(rqxop , rqyop);
+  //movimentacaoRQOP();
+  colisaoraquete(rqxop , rqyop);
+  colisaoraquete(rqx , rqy);
+  movimentacaoRQ();
+  raqueteOP();
+  pontos();
+  placar();
+
+}
+
+function bolinha(){
+  circle(posi_x_bolinha  , posi_y_bolinha , diametro)
+}
+
+function posicaobolinha(){
+  posi_x_bolinha += velocidadex
+  posi_y_bolinha += velocidadey
+
+}
+
+function verificacao(){
+    if (posi_x_bolinha + raio > width || posi_x_bolinha - raio < 0) {
+    velocidadex *=-1; 
+  }
+ if (posi_y_bolinha + raio > height || posi_y_bolinha - raio < 0) {
+    velocidadey *=-1; 
+  } 
+  
+}
+
+function raquete(x, y){
+  rect(x , y , rqla , rqal)
+}
+
+function movimentacaoRQ(){
+  if (keyIsDown(UP_ARROW)){
+    rqy -= 10;
+  }
+    if (keyIsDown(DOWN_ARROW)){
+    rqy += 10;
+  }
+  
+  
+}
+
+function colisaorq(){
+  if (posi_x_bolinha - raio < rqx + rqla && posi_y_bolinha - raio < rqy + rqal && posi_y_bolinha + raio > rqy ) {
+    velocidadex *= -1
+  }
+    
+   
+  
+}
+
+function colisaoraquete(x , y){
+  colisao = 
+collideRectCircle(x , y , rqla , rqal , posi_x_bolinha , posi_y_bolinha , raio);
+  
+  if (colisao){velocidadex *= -1}
+  
+  
+  
+  
+}
+
+function movimentacaoRQOP(){
+  
+  velocidadeOP = posi_y_bolinha - rqyop - rqal / 2 - 30;
+  rqyop += velocidadeOP;
+  
+  
+  
+  
+}
+
+function raqueteOP(){
+  if (keyIsDown(87)){
+    rqyop -= 10;
+  }
+    if (keyIsDown(83)){
+    rqyop += 10;
+  }
+  
+  
+}
+
+function pontos(){
+
+  stroke(255);
+    textAlign(CENTER);
+    textSize(16);
+    fill(color(255, 140, 0));
+    rect(150, 10, 40, 20);
+    fill(255);
+    text(pontos1, 170, 26);
+    fill(color(255, 140, 0));
+    rect(450, 10, 40, 20);
+    fill(255);
+    text(pontos2, 470, 26);
+
+  fill(255);
+  
+  
+  }
+
+function placar(){
+  if (posi_x_bolinha > 593){
+    pontos1 += 1;
+  }
+   if (posi_x_bolinha < 10){
+    pontos2 += 1;
+  }
+  
+  
+}
+
